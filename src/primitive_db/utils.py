@@ -3,6 +3,7 @@ import os
 
 from primitive_db.constants import DATA_DIR
 
+
 def load_metadata(filepath):
     """Загружает метаданные из JSON-файла или возвращает пустой словарь."""
     try:
