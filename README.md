@@ -6,3 +6,7 @@
 - `drop_table <имя>` — удалить таблицу
 - `help`, `exit`
 
+Пример:
+    create_table users name:str age:int is_active:bool
+    list_tables
+    drop_table users
