@@ -1,5 +1,6 @@
 from primitive_db.constants import ID_COLUMN, ID_TYPE, VALID_TYPES
 
+
 def table_exists(metadata, table_name):
     """Проверяет наличие таблицы; при отсутствии печатает ошибку."""
     if table_name in metadata:
