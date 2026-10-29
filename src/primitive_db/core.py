@@ -25,3 +25,11 @@ def create_table(metadata, table_name, columns):
     updated = dict(metadata)
     updated[table_name] = table_columns
     return updated
+
+def drop_table(metadata, table_name):
+    """Удаляет таблицу из метаданных и возвращает обновленные метаданные."""
+    if not table_exists(metadata, table_name):
+        return metadata
+    updated = dict(metadata)
+    del updated[table_name]
+    return updated
