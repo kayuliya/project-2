@@ -244,8 +244,6 @@ def run():
                 break
         except ValueError as error:
             print_invalid_value(error)
-        except KeyError as error:
-            print(f"Ошибка: {error} не найден.")
         except (EOFError, KeyboardInterrupt):
             print()
             break
