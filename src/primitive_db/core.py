@@ -1,4 +1,5 @@
 from primitive_db.constants import ID_COLUMN, ID_TYPE, VALID_TYPES
+from primitive_db.decorators import handle_db_errors
 
 PYTHON_TYPES = {"int": int, "str": str, "bool": bool}
 
@@ -29,7 +30,7 @@ def find_records(table_data, where_clause=None):
         return list(table_data)
     return [record for record in table_data if matches(record, where_clause)]
 
-
+@handle_db_errors
 def create_table(metadata, table_name, columns):
     """Создает таблицу, добавляя столбец ID:int, и возвращает метаданные."""
     if table_name in metadata:
@@ -49,7 +50,7 @@ def create_table(metadata, table_name, columns):
     updated[table_name] = table_columns
     return updated
 
-
+@handle_db_errors
 def drop_table(metadata, table_name):
     """Удаляет таблицу из метаданных и возвращает обновленные метаданные."""
     if not table_exists(metadata, table_name):
@@ -58,7 +59,7 @@ def drop_table(metadata, table_name):
     del updated[table_name]
     return updated
 
-
+@handle_db_errors
 def validate_clause(metadata, table_name, clause, forbid_id=False):
     """Проверяет столбцы и типы значений условия. Возвращает True при успехе."""
     schema = metadata[table_name]
@@ -70,7 +71,7 @@ def validate_clause(metadata, table_name, clause, forbid_id=False):
             raise ValueError(f"значение {value!r} не подходит для {column}")
     return True
 
-
+@handle_db_errors
 def insert(metadata, table_name, values, table_data):
     """Добавляет запись с новым ID и возвращает обновленные данные таблицы."""
     columns = [
@@ -88,12 +89,12 @@ def insert(metadata, table_name, values, table_data):
         record[name] = value
     return table_data + [record]
 
-
+@handle_db_errors
 def select(table_data, where_clause=None):
     """Возвращает записи по условию."""
     return find_records(table_data, where_clause)
 
-
+@handle_db_errors
 def update(table_data, set_clause, where_clause):
     """Обновляет поля у подходящих записей и возвращает данные таблицы."""
     return [
@@ -101,7 +102,7 @@ def update(table_data, set_clause, where_clause):
         for record in table_data
     ]
 
-
+@handle_db_errors
 def delete(table_data, where_clause):
     """Удаляет подходящие записи и возвращает данные таблицы."""
     return [record for record in table_data if not matches(record, where_clause)]
