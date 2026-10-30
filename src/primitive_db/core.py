@@ -1,8 +1,13 @@
 from primitive_db.constants import ID_COLUMN, ID_TYPE, VALID_TYPES
-from primitive_db.decorators import confirm_action, handle_db_errors, log_time
+from primitive_db.decorators import (
+    confirm_action,
+    create_cacher,
+    handle_db_errors,
+    log_time,
+)
 
 PYTHON_TYPES = {"int": int, "str": str, "bool": bool}
-
+cache_result = create_cacher()
 
 def table_exists(metadata, table_name):
     """Проверяет наличие таблицы; при отсутствии печатает ошибку."""
@@ -94,8 +99,10 @@ def insert(metadata, table_name, values, table_data):
 @handle_db_errors
 @log_time
 def select(table_data, where_clause=None):
-    """Возвращает записи по условию."""
-    return find_records(table_data, where_clause)
+    """Возвращает записи по условию; одинаковые запросы берутся из кэша."""
+    key = str((table_data, where_clause))
+    return cache_result(key, lambda: find_records(table_data, where_clause))
+
 
 @handle_db_errors
 def update(table_data, set_clause, where_clause):

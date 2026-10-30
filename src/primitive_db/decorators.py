@@ -62,3 +62,17 @@ def log_time(func):
         return result
 
     return copy_metadata(wrapper, func)
+
+
+def create_cacher():
+    """Возвращает функцию cache_result с кэшем внутри замыкания."""
+    cache = {}
+
+    def cache_result(key, value_func):
+        if key in cache:
+            return cache[key]
+        result = value_func()
+        cache[key] = result
+        return result
+
+    return cache_result
