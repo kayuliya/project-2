@@ -1,3 +1,5 @@
+import time
+
 import prompt
 
 from primitive_db.constants import CONFIRM_ANSWER
@@ -47,3 +49,16 @@ def confirm_action(action_name):
         return copy_metadata(wrapper, func)
 
     return decorator
+
+
+def log_time(func):
+    """Замеряет и печатает время выполнения функции."""
+
+    def wrapper(*args, **kwargs):
+        start = time.monotonic()
+        result = func(*args, **kwargs)
+        elapsed = time.monotonic() - start
+        print(f"Функция {func.__name__} выполнилась за {elapsed:.3f} секунд.")
+        return result
+
+    return copy_metadata(wrapper, func)

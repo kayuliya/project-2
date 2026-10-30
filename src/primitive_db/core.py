@@ -1,5 +1,5 @@
 from primitive_db.constants import ID_COLUMN, ID_TYPE, VALID_TYPES
-from primitive_db.decorators import confirm_action, handle_db_errors
+from primitive_db.decorators import confirm_action, handle_db_errors, log_time
 
 PYTHON_TYPES = {"int": int, "str": str, "bool": bool}
 
@@ -73,6 +73,7 @@ def validate_clause(metadata, table_name, clause, forbid_id=False):
     return True
 
 @handle_db_errors
+@log_time
 def insert(metadata, table_name, values, table_data):
     """Добавляет запись с новым ID и возвращает обновленные данные таблицы."""
     columns = [
@@ -91,6 +92,7 @@ def insert(metadata, table_name, values, table_data):
     return table_data + [record]
 
 @handle_db_errors
+@log_time
 def select(table_data, where_clause=None):
     """Возвращает записи по условию."""
     return find_records(table_data, where_clause)
