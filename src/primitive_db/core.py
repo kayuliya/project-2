@@ -1,5 +1,5 @@
 from primitive_db.constants import ID_COLUMN, ID_TYPE, VALID_TYPES
-from primitive_db.decorators import handle_db_errors
+from primitive_db.decorators import confirm_action, handle_db_errors
 
 PYTHON_TYPES = {"int": int, "str": str, "bool": bool}
 
@@ -51,6 +51,7 @@ def create_table(metadata, table_name, columns):
     return updated
 
 @handle_db_errors
+@confirm_action("удаление таблицы")
 def drop_table(metadata, table_name):
     """Удаляет таблицу из метаданных и возвращает обновленные метаданные."""
     if not table_exists(metadata, table_name):
@@ -103,6 +104,7 @@ def update(table_data, set_clause, where_clause):
     ]
 
 @handle_db_errors
+@confirm_action("удаление записи")
 def delete(table_data, where_clause):
     """Удаляет подходящие записи и возвращает данные таблицы."""
     return [record for record in table_data if not matches(record, where_clause)]

@@ -1,3 +1,8 @@
+import prompt
+
+from primitive_db.constants import CONFIRM_ANSWER
+
+
 def copy_metadata(wrapper, func):
     """Переносит имя и описание исходной функции на обертку."""
     wrapper.__name__ = func.__name__
@@ -22,3 +27,23 @@ def handle_db_errors(func):
             print(f"Произошла непредвиденная ошибка: {error}")
 
     return copy_metadata(wrapper, func)
+
+
+def confirm_action(action_name):
+    """Фабрика декораторов: просит подтвердить опасную операцию.
+
+    При отказе возвращает первый аргумент без изменений.
+    """
+
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            question = f'Вы уверены, что хотите выполнить "{action_name}"? [y/n]: '
+            answer = prompt.string(question)
+            if answer.strip().lower() == CONFIRM_ANSWER:
+                return func(*args, **kwargs)
+            print("Операция отменена.")
+            return args[0] if args else None
+
+        return copy_metadata(wrapper, func)
+
+    return decorator
