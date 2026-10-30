@@ -23,3 +23,13 @@
 Демонстрация:
 
 [![asciicast](https://asciinema.org/a/2OhL77y6DhsqWLMJ.svg)](https://asciinema.org/a/2OhL77y6DhsqWLMJ)
+
+## Обработка ошибок и подтверждение действий
+
+- Ошибки (несуществующая таблица или столбец, неверный тип значения) обрабатываются декоратором и не прерывают работу программы.
+- Опасные операции (`drop_table`, `delete`) запрашивают подтверждение `[y/n]`.
+- Время выполнения `select` и `insert` выводится в консоль; повторные одинаковые `select` берутся из кэша.
+
+Демонстрация:
+
+[![asciicast](https://asciinema.org/a/qRUOFRyTq3kMqFy2.svg)](https://asciinema.org/a/qRUOFRyTq3kMqFy2)
