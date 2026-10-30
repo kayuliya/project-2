@@ -19,10 +19,7 @@
 - `delete from <таблица> where <столбец> = <значение>` — удалить записи
 - `info <таблица>` — информация о таблице
 
-Пример:
 
-    insert into users values ("Sergei", 28, true)
-    select from users where age = 28
-    update users set age = 29 where name = "Sergei"
-    delete from users where ID = 1
-    info users
+Демонстрация:
+
+[![asciicast](https://asciinema.org/a/2OhL77y6DhsqWLMJ.svg)](https://asciinema.org/a/2OhL77y6DhsqWLMJ)
